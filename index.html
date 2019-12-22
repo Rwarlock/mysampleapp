@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">    
+
+</head>
+<body>
+    <div class="slider-container">
+        
+        <!-- Slider 1 -->
+        <div id="slider-item-1" class="special-slider">
+            <div class="slider-left">
+                <h3>Versatility</h3>
+                <p>Your business goals, are ours to achieve. Team with a razor sharp focus. Overcoming online growth hurdles is our daily gratification.</p>
+                
+            </div>
+            <div class="slider-right" style="background-image: url('./slider-1.png');">
+                
+            </div>
+        </div>
+
+
+        <!-- Slider 2 -->
+        <div id="slider-item-2" class="special-slider">
+            <div class="slider-left" style="background-color: rgba(135,186,199,0.13);">
+                <h3>Impeccebale</h3>
+                <p>Your business goals, are ours to achieve. Team with a razor sharp focus. Overcoming online growth hurdles is our daily gratification.</p>
+            </div>
+            <div class="slider-right" style="background-image: url('./slider-2.png');">
+                
+            </div>
+        </div>
+
+        <!-- Slider 3 -->
+        <div id="slider-item-3" class="special-slider">
+            <div class="slider-left" style="background-color: rgba(239,241,245,1);">
+                <h3>Zeal</h3>
+                <p>Your business goals, are ours to achieve. Team with a razor sharp focus. Overcoming online growth hurdles is our daily gratification.</p>
+            </div>
+            <div class="slider-right" style="background-image: url('./slider-3.png');">
+                
+            </div>
+        </div>
+
+
+        <!-- Slider 4 -->
+        <div id="slider-item-4" class="special-slider">
+            <div class="slider-left" style="background-color: rgba(202,185,150,0.17);">
+                <h3>Systematic</h3>
+                <p>Your business goals, are ours to achieve. Team with a razor sharp focus. Overcoming online growth hurdles is our daily gratification.</p>
+               
+            </div>
+            <div class="slider-right" style="background-image: url('./slider-4.png');">
+                
+            </div>
+        </div>
+
+        <div class="slider-button">
+            <button class="goPrev">
+                <div>
+                    <img src="./left.png" alt="Left Button">
+                </div>
+            </button>
+            <button class="goNext">
+                <div>
+                    <img src="./right.png" alt="Left Button">
+                </div>
+            </button>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js"></script>
+
+    <script>
+        var $slider = $(".slider-container");
+        var $slides = $slider.find(".special-slider");
+        var $navPrev = $(".goPrev");
+        var $navNext = $(".goNext");
+
+        var slidesNum = $slides.length;
+        var prevSlideID = null;
+        var currentSlideID = 1;
+        var isAutoPlay = false;
+        var isAnimating = false;
+        var isAutoPlay = false;
+
+
+        function init()  {
+            TweenLite.set($slides, {
+                left: "-100%"
+            });
+            $navPrev.on("click",gotoPrevSlide);
+            $navNext.on("click",gotoNextSlide);
+            gotoSlide(0, 0);
+        }
+
+        function gotoPrevSlide(){
+            var slideToGo = currentSlideID - 1;
+            if (slideToGo <= -1){
+                slideToGo = slidesNum - 1;
+            }
+            gotoSlide(slideToGo, 0.5, "prev");
+        }
+
+
+        function gotoNextSlide() {
+            var slideToGo = currentSlideID + 1;
+            if (slideToGo >= slidesNum) {
+                slideToGo = 0;
+            }
+            gotoSlide(slideToGo, 0.5, "next");
+        }
+
+        function gotoSlide(slideID, _time, _direction) {
+            if (!isAnimating) {
+                isAnimating = true;
+                prevSlideID = currentSlideID;
+                currentSlideID = slideID;
+                var $prevSlide = $slides.eq(prevSlideID);
+                var $currentSlide = $slides.eq(currentSlideID);
+                var $currentSlideLeft = $currentSlide.find('.slider-left');
+                var $currentSlideRight = $currentSlide.find('.slider-right');
+                
+                var time = 1;
+                if (_time !== null) {
+                    time = _time;
+                }
+                var direction = "next";
+                if (_direction != null) {
+                    direction = _direction;
+                }
+                if (direction == "next") {
+                    TweenLite.to($prevSlide, time, {
+                        left: "-100%",
+                        
+                    });
+
+                    TweenLite.fromTo($currentSlide, time, {
+                        left: "100%"
+                    }, {
+                        left: "0"
+                    });
+
+                    TweenLite.fromTo($currentSlideRight, 1, {
+                        y: "-50px",
+                        opacity: "0"
+                    }, {
+                        y: "0px",
+                        opacity: "1"
+                    });
+
+                    TweenLite.fromTo($currentSlideLeft, 1, {
+                        y: "50px",
+                        opacity: "0"
+                    }, {
+                        y: "0px",
+                        opacity: "1"
+                    });
+
+                } else {
+                    TweenLite.to($prevSlide, time, {
+                         left: "100%"
+                    });
+                    TweenLite.fromTo($currentSlide, time, {
+                        left: "-100%"
+                    }, {
+                        left: "0"
+                    });
+                    TweenLite.fromTo($currentSlideRight, 1, {
+                        y: "50px",
+                        opacity: "0"
+                    }, {
+                        y: "0px",
+                        opacity: "1"
+                    });
+
+                    TweenLite.fromTo($currentSlideLeft, 1, {
+                        y: "-50px",
+                        opacity: "0"
+                    }, {
+                        y: "0px",
+                        opacity: "1"
+                    });
+                }
+                TweenLite.delayedCall(time, function() {
+                    isAnimating = false;
+                });
+            }
+        }
+
+                
+        function play(){
+        gotoNextSlide();
+        TweenLite.delayedCall(4, play);
+        }
+
+        function startAutoPlay(immediate) {
+            if (immediate != null) {
+                immediate = false;
+            }
+            
+            if (immediate) {
+                gotoNextSlide();
+            }
+            TweenLite.delayedCall(4, play);
+        }
+
+        function stopAutoPlay() {
+        isAutoPlay = false;
+            TweenLite.killDelayedCallsTo(play);
+        }
+
+
+        init();
+
+    </script>
+
+
+</body>
+</html>
